@@ -6,6 +6,7 @@
     - name: Install yum utils and device-mapper-persistent-data
       yum: name={{ item }} state=latest update_cache=yes
       loop: [ 'yum-utils', 'device-mapper-persistent-data', 'libseccomp', 'python3-pip']
+      tags: docker
         
     - name: Add Docker repo
       get_url:
