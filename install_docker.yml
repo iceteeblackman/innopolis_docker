@@ -39,6 +39,21 @@
       pip:
         name: docker
       tags: docker
+
+    - name: Set masquerade for docker public zone
+      firewalld:
+        masquerade: yes
+        state: enabled
+        permanent: true
+        zone: public
+        immediate: yes
+      tags: firewall
+      
+  ### firewall-cmd --permanent --direct --add-rule ipv4 filter INPUT 4 -i docker0 -j ACCEPT
+    - name: Set input filter for docker public zone
+      shell:
+        cmd: firewall-cmd --permanent --direct --add-rule ipv4 filter INPUT 4 -i docker0 -j ACCEPT
+      tags: firewall
       
     - name: Set active zone
       firewalld:
@@ -48,3 +63,20 @@
         immediate: yes
         permanent: true
       tags: firewall
+
+    - name: Set masquerade for docker
+      firewalld:
+        masquerade: yes
+        state: enabled
+        permanent: true
+        zone: trusted
+        immediate: yes
+      tags: firewall
+
+### firewall-cmd --permanent --direct --add-rule ipv4 filter INPUT 4 -i docker0 -j ACCEPT
+    - name: Set input filter for docker
+      shell:
+        cmd: firewall-cmd --permanent --direct --add-rule ipv4 filter INPUT 4 -i docker0 -j ACCEPT
+      tags: firewall
+
+      
